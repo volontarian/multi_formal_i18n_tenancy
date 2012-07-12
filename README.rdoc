@@ -18,9 +18,8 @@ This locale file owns all translations from its base *.yml and lets you override
 
 Given you want to have tenant specific locales through a session locale switch:
 
+  # ('Your Tenant Name'.parameterize.gsub('-', '_') + '_de').to_sym == :your_tenant_name_de
   I18n.locale :your_tenant_name_de # or :your_tenant_name_de_formal
-
-  ('Your Tenant Name'.parameterize.gsub('-', '_') + '_de').to_sym == :your_tenant_name_de
 
 <b>Precondition:</b> Assure that you recursively add locale files to i18n's locale path e.g. through your Rails 3 application.rb:
 
