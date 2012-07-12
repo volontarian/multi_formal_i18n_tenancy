@@ -35,27 +35,27 @@
 
 <h2>Conventions</h2>
 
-<p><b>*_formal.yml</b></p>
+<p><span style="font-weight:bold">*_formal.yml</span></p>
 
 <p>Given you want to offer your users the option to be addressed formally or informally through a session locale switch: </p>
 
-<p>I18n.locale = :de # or :de_formal</p>
+<pre>I18n.locale = :de # or :de_formal</pre>
 
 <p>So this is a <a href="http://en.wikipedia.org/wiki/Don%27t_repeat_yourself">DRY</a> solution for the workaround about having duplication of de locales in the de_formal namespace even though informal &amp; formal translation are the same.</p>
 
 <p>This locale file owns all translations from its base *.yml and lets you override them through the same translation keys (except of the deviant locale namespaces de and de_formal at the beginning).</p>
 
-<p><b>#{locales_path}/tenants/your_tenant_name/**/your_tenant_name.yml</b></p>
+<pre><b>#{locales_path}/tenants/your_tenant_name/**/your_tenant_name.yml</b></pre>
 
 <p>Given you want to have tenant specific locales through a session locale switch:</p>
 
-<p>I18n.locale :your_tenant_name_de # or :your_tenant_name_de_formal</p>
+<pre>I18n.locale :your_tenant_name_de # or :your_tenant_name_de_formal</pre>
 
-<p>('Your Tenant Name'.parameterize.gsub('-', '_') + '_de').to_sym == :your_tenant_name_de</p>
+<pre>('Your Tenant Name'.parameterize.gsub('-', '_') + '_de').to_sym == :your_tenant_name_de</pre>
 
-<p><strong>Precondition:</strong> Assure that you recursively add locale files to i18n's locale path e.g. through your Rails 3 application.rb:</p>
+<p><span style="font-weight:bold">Precondition:</span> Assure that you recursively add locale files to i18n's locale path e.g. through your Rails 3 application.rb:</p>
 
-<p>config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '*<em>', '</em>.{rb,yml}').to_s]</p>
+<pre>config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '*<em>', '</em>.{rb,yml}').to_s]</pre>
 
 <p>This locale file owns all translations from its base *.yml and optional *_formal.yml under #{locales_path}/tenants/your-tenant-name/ (recurively) and lets you override them through the same translation keys (except of the deviant locale namespaces de and de_formal at the beginning).</p>
 
@@ -63,13 +63,13 @@
 
 <p>Add this to your Gemfile and run the +bundle+ command.</p>
 
-<p>gem "multi_formal_i18n_tenancy"</p>
+<pre>gem "multi_formal_i18n_tenancy"</pre>
 
 <p>The gem (= engine) will automatically set the backend for your Rails application.</p>
 
 <p>OPTIONAL: you have to manually set the i18n backend for your non-rails Ruby application:</p>
 
-<p>I18n.backend = MultiFormalI18nTenancy::Backend.new</p>
+<pre>I18n.backend = MultiFormalI18nTenancy::Backend.new</pre>
 
 <h2>Compatibility</h2>
 
