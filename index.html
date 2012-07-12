@@ -31,7 +31,9 @@
           <h1>MultiFormalI18nTenancy <a href="http://travis-ci.org/Applicat/multi_formal_i18n_tenancy"><img src="https://secure.travis-ci.org/Applicat/multi_formal_i18n_tenancy.png" alt="multi_formal_i18n_tenancy @ Travis-CI.org"></a> <a href="https://codeclimate.com/github/Applicat/multi_formal_i18n_tenancy"><img src="https://codeclimate.com/badge.png" alt="multi_formal_i18n_tenancy @ CodeClimate.com"></a> <a href="https://gemnasium.com/Applicat/multi_formal_i18n_tenancy"><img src="https://gemnasium.com/Applicat/multi_formal_i18n_tenancy.png?travis" alt="multi_formal_i18n_tenancy @ Gemnasium.com"></a>
 </h1>
 
-<p>This gem extends the standard i18n backend (I18n::Backend::Simple) to introduce {Conventions over configuration}[<a href="http://en.wikipedia.org/wiki/Convention_over_configuration">http://en.wikipedia.org/wiki/Convention_over_configuration</a>] about 2 new types of locale files:</p>
+<p>This gem extends the standard i18n backend (I18n::Backend::Simple) to introduce {Conventions over configuration}[<a href="http://en.wikipedia.org/wiki/Convention_over_configuration">http://en.wikipedia.org/wiki/Convention_over_configuration</a>] about 2 new types of locale files.</p>
+
+<h2>Conventions</h2>
 
 <p><b>*_formal.yml</b></p>
 
@@ -39,7 +41,7 @@
 
 <p>I18n.locale = :de # or :de_formal</p>
 
-<p>So this is a {DRY}[<a href="http://en.wikipedia.org/wiki/Don%27t_repeat_yourself">http://en.wikipedia.org/wiki/Don%27t_repeat_yourself</a>] solution for the workaround about having duplication of de locales in the de_formal namespace even though informal &amp; formal translation are the same.</p>
+<p>So this is a <a href="http://en.wikipedia.org/wiki/Don%27t_repeat_yourself">DRY</a> solution for the workaround about having duplication of de locales in the de_formal namespace even though informal &amp; formal translation are the same.</p>
 
 <p>This locale file owns all translations from its base *.yml and lets you override them through the same translation keys (except of the deviant locale namespaces de and de_formal at the beginning).</p>
 
@@ -69,11 +71,7 @@
 
 <p>I18n.backend = MultiFormalI18nTenancy::Backend.new</p>
 
-<h2>Wiki Docs</h2>
-
-<ul>
-<li>{Modules}[<a href="https://github.com/Applicat/multi_formal_i18n_tenancy/wiki/modules">https://github.com/Applicat/multi_formal_i18n_tenancy/wiki/modules</a>]</li>
-</ul><h2>Compatibility</h2>
+<h2>Compatibility</h2>
 
 <p>Tested on MacOS with: Rails 3.1 &amp; Ruby 1.9.2, Rails 3.2.6 &amp; Ruby 1.9.3.</p>
 
