@@ -40,15 +40,11 @@ OPTIONAL: you have to manually set the i18n backend for your non-rails Ruby appl
 
   I18n.backend = MultiFormalI18nTenancy::Backend.new
   
-== Wiki Docs
-
-* {Modules}[https://github.com/Applicat/multi_formal_i18n_tenancy/wiki/modules]
-
 == Compatibility
 
 Tested on MacOS with: Rails 3.1 & Ruby 1.9.2, Rails 3.2.6 & Ruby 1.9.3.
 
-= Future =
+= Future
 
 * Support of more backends than only standard simple one
 
