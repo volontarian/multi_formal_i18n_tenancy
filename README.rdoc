@@ -2,7 +2,7 @@
 
 This gem extend the standard i18n backend (I18n::Backend::Simple) to introduce {Conventions over configuration}[http://en.wikipedia.org/wiki/Convention_over_configuration] about 2 new types of locale files.
 
-<h2>Conventions</h2>
+== Conventions
 
 <b>1 ) *_formal.yml</b>
 
