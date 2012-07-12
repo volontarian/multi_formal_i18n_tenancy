@@ -1,8 +1,8 @@
 require 'i18n'
 
-require 'multi_formal_i18n_tenancy/backend'
+module MultiFormalI18nTenancy
+end
 
 require 'multi_formal_i18n_tenancy/engine' if defined? Rails::Engine
 
-module MultiFormalI18nTenancy
-end
+require 'multi_formal_i18n_tenancy/backend'
