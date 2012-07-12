@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>Multi formal i18n tenancy by Applicat</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1>Multi formal i18n tenancy</h1>
+        <h2>Your formal locales will inherit translations from their base locale and locales stored in an enterprise folder can override base + formal translations</h2>
+        <a href="https://github.com/Applicat/multi_formal_i18n_tenancy" class="button"><small>View project on</small>GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h1>MultiFormalI18nTenancy <a href="http://travis-ci.org/Applicat/multi_formal_i18n_tenancy"><img src="https://secure.travis-ci.org/Applicat/multi_formal_i18n_tenancy.png" alt="multi_formal_i18n_tenancy @ Travis-CI.org"></a> <a href="https://codeclimate.com/github/Applicat/multi_formal_i18n_tenancy"><img src="https://codeclimate.com/badge.png" alt="multi_formal_i18n_tenancy @ CodeClimate.com"></a> <a href="https://gemnasium.com/Applicat/multi_formal_i18n_tenancy"><img src="https://gemnasium.com/Applicat/multi_formal_i18n_tenancy.png?travis" alt="multi_formal_i18n_tenancy @ Gemnasium.com"></a>
+</h1>
+
+<p>This gem extends the standard i18n backend (I18n::Backend::Simple) to introduce {Conventions over configuration}[<a href="http://en.wikipedia.org/wiki/Convention_over_configuration">http://en.wikipedia.org/wiki/Convention_over_configuration</a>] about 2 new types of locale files:</p>
+
+<p><b>*_formal.yml</b></p>
+
+<p>Given you want to offer your users the option to be addressed formally or informally through a session locale switch: </p>
+
+<p>I18n.locale = :de # or :de_formal</p>
+
+<p>So this is a {DRY}[<a href="http://en.wikipedia.org/wiki/Don%27t_repeat_yourself">http://en.wikipedia.org/wiki/Don%27t_repeat_yourself</a>] solution for the workaround about having duplication of de locales in the de_formal namespace even though informal &amp; formal translation are the same.</p>
+
+<p>This locale file owns all translations from its base *.yml and lets you override them through the same translation keys (except of the deviant locale namespaces de and de_formal at the beginning).</p>
+
+<p><b>#{locales_path}/tenants/your_tenant_name/**/your_tenant_name.yml</b></p>
+
+<p>Given you want to have tenant specific locales through a session locale switch:</p>
+
+<p>I18n.locale :your_tenant_name_de # or :your_tenant_name_de_formal</p>
+
+<p>('Your Tenant Name'.parameterize.gsub('-', '_') + '_de').to_sym == :your_tenant_name_de</p>
+
+<p><strong>Precondition:</strong> Assure that you recursively add locale files to i18n's locale path e.g. through your Rails 3 application.rb:</p>
+
+<p>config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '*<em>', '</em>.{rb,yml}').to_s]</p>
+
+<p>This locale file owns all translations from its base *.yml and optional *_formal.yml under #{locales_path}/tenants/your-tenant-name/ (recurively) and lets you override them through the same translation keys (except of the deviant locale namespaces de and de_formal at the beginning).</p>
+
+<h2>Installation</h2>
+
+<p>Add this to your Gemfile and run the +bundle+ command.</p>
+
+<p>gem "multi_formal_i18n_tenancy"</p>
+
+<p>The gem (= engine) will automatically set the backend for your Rails application.</p>
+
+<p>OPTIONAL: you have to manually set the i18n backend for your non-rails Ruby application:</p>
+
+<p>I18n.backend = MultiFormalI18nTenancy::Backend.new</p>
+
+<h2>Wiki Docs</h2>
+
+<ul>
+<li>{Modules}[<a href="https://github.com/Applicat/multi_formal_i18n_tenancy/wiki/modules">https://github.com/Applicat/multi_formal_i18n_tenancy/wiki/modules</a>]</li>
+</ul><h2>Compatibility</h2>
+
+<p>Tested on MacOS with: Rails 3.1 &amp; Ruby 1.9.2, Rails 3.2.6 &amp; Ruby 1.9.3.</p>
+
+<h2>Future</h2>
+
+<ul>
+<li>Support of more backends than only the standard simple one</li>
+</ul><h2>Contribution</h2>
+
+<p>Just follow the screencast of Ryan Bates on railscasts.com: </p>
+
+<p><a href="http://railscasts.com/episodes/300-contributing-to-open-source">http://railscasts.com/episodes/300-contributing-to-open-source</a></p>
+
+<p>Add a description about your changes to CHANGELOG.md under section multi_formal_i18n_tenancy (unreleased).</p>
+
+<h2>License</h2>
+
+<p>This project uses MIT-LICENSE.</p>
+        </section>
+
+        <aside id="sidebar">
+          <a href="https://github.com/Applicat/multi_formal_i18n_tenancy/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/Applicat/multi_formal_i18n_tenancy/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/Applicat/multi_formal_i18n_tenancy"></a> is maintained by <a href="https://github.com/Applicat">Applicat</a>.</p>
+
+          <p>This page was generated by <a href="pages.github.com">GitHub Pages</a> using the Architect theme by <a href="http://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+  
+  </body>
+</html>
