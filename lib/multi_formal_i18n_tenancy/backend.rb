@@ -81,8 +81,8 @@ class MultiFormalI18nTenancy::Backend < I18n::Backend::Simple
     
     base_locale = options[:base_locale] || I18n.default_locale
     formal = options[:formal] || false
-    tenant = options[:tenant]
-    
+    tenant = (options[:tenant] || '').parameterize.gsub('-', '_')
+     
     deepest_available_locale = nil
     
     # take last / deepest available locale of possible combinations
