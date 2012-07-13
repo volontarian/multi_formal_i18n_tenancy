@@ -6,7 +6,7 @@ class MultiFormalI18nTenancy::Backend < I18n::Backend::Simple
   TENANT_LOCALE_PATTERN = /tenants$/
 
   attr_accessor :filenames
-
+ 
   # Accepts a list of paths to translation files. Loads translations from
   # plain Ruby (*.rb) or YAML files (*.yml). See #load_rb and #load_yml
   # for details.
@@ -64,7 +64,9 @@ class MultiFormalI18nTenancy::Backend < I18n::Backend::Simple
         base_locale.gsub!(FORMAL_LOCALE_PATTERN, '') 
       end
        
-      translations[locale] = (translations[base_locale.to_sym] || {}).clone
+      unless tenant && locale.to_s.match(FORMAL_LOCALE_PATTERN)
+        translations[locale] = (translations[base_locale.to_sym] || {}).clone
+      end
     else
       translations[locale] ||= {}
     end
@@ -72,6 +74,46 @@ class MultiFormalI18nTenancy::Backend < I18n::Backend::Simple
     data = data.deep_symbolize_keys
     
     translations[locale].deep_merge!(data)
+  end
+  
+  def available_locale(options = {})
+    options.assert_valid_keys(:base_locale, :formal, :tenant) if options.respond_to? :assert_valid_keys
+    
+    base_locale = options[:base_locale] || I18n.default_locale
+    formal = options[:formal] || false
+    tenant = options[:tenant]
+    
+    deepest_available_locale = nil
+    
+    # take last / deepest available locale of possible combinations
+    variant_index = -1
+    
+    [     
+      [
+        (formal && tenant), 
+        [tenant, base_locale, 'formal']
+      ],
+      [
+        formal && tenant && available_locales.include?([tenant, base_locale].join('_').to_sym) &&
+        available_locales.include?([base_locale, 'formal'].join('_').to_sym), 
+        [tenant, base_locale, 'formal']
+      ],    
+      [tenant, [tenant, base_locale]],
+      [formal, [base_locale, 'formal']],
+      [true, [base_locale]], 
+    ].each do |variant|
+      variant_index += 1
+      
+      next unless variant[0]
+
+      if available_locales.include?(variant[1].join('_').to_sym) || (variant_index == 1 && [tenant, base_locale, 'formal'] == variant[1])
+        deepest_available_locale = variant[1].join('_').to_sym
+      end
+            
+      break if deepest_available_locale
+    end
+    
+    deepest_available_locale || I18n.default_locale
   end
   
   private
