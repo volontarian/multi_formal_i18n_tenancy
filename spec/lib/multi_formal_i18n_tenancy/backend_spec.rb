@@ -93,9 +93,9 @@ describe MultiFormalI18nTenancy::Backend do
           [{}, :de], 
           [{base_locale: :en}, :en], 
           [{base_locale: :unavailable}, :de],
-          [{tenant: 'your_tenant_name'}, :de],
-          [{formal: true, tenant: 'your_tenant_name'}, :de],
-          [{formal: true, tenant: 'unavailable_tenant_name'}, :de]
+          [{tenant: 'Your Tenant Name'}, :de],
+          [{formal: true, tenant: 'Your Tenant Name'}, :de],
+          [{formal: true, tenant: 'Unavailable Tenant Name'}, :de]
         ].each do |variant|
           actual = I18n.backend.available_locale(variant.first)
           actual.should(
@@ -119,7 +119,7 @@ describe MultiFormalI18nTenancy::Backend do
         
         [
           [{formal: true}, :de_formal], 
-          [{formal: true, tenant: 'your_tenant_name'}, :de_formal]
+          [{formal: true, tenant: 'Your Tenant Name'}, :de_formal]
         ].each do |variant|
           actual = I18n.backend.available_locale(variant.first)
           actual.should(
@@ -147,8 +147,8 @@ describe MultiFormalI18nTenancy::Backend do
           [{formal: true}, :de_formal], 
           # should be :your_tenant_name_de_formal even though there is no :your_tenant_name_de_formal file 
           # but the base file :de_formal to inherit from
-          [{formal: true, tenant: 'your_tenant_name'}, :your_tenant_name_de_formal],
-          [{base_locale: :en, formal: true, tenant: 'your_tenant_name'}, :your_tenant_name_en]
+          [{formal: true, tenant: 'Your Tenant Name'}, :your_tenant_name_de_formal],
+          [{base_locale: :en, formal: true, tenant: 'Your Tenant Name'}, :your_tenant_name_en]
         ].each do |variant|
           actual = I18n.backend.available_locale(variant.first)
           actual.should(
@@ -178,7 +178,7 @@ describe MultiFormalI18nTenancy::Backend do
         I18n.backend = MultiFormalI18nTenancy::Backend.new
         
         [
-          [{base_locale: :de, formal: true, tenant: 'your_tenant_name'}, :your_tenant_name_de_formal]
+          [{base_locale: :de, formal: true, tenant: 'Your Tenant Name'}, :your_tenant_name_de_formal]
         ].each do |variant|
           actual = I18n.backend.available_locale(variant.first)
           actual.should(
