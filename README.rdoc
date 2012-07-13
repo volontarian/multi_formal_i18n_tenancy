@@ -75,7 +75,7 @@ Dependency: https://github.com/iain/http_accept_language
         locale ||= I18n.default_locale
         
         unless Settings.tenant.name == 'global'
-          locale = ("#{Settings.tenant.name}_#{locale}").to_sym
+          locale = ("#{Settings.tenant.name.parameterize.gsub('-', '_')}_#{locale}").to_sym
         end
       end
       
