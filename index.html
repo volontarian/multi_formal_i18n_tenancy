@@ -28,66 +28,141 @@
     <div id="content-wrapper">
       <div class="inner clearfix">
         <section id="main-content">
-          <h1>MultiFormalI18nTenancy <a href="http://travis-ci.org/Applicat/multi_formal_i18n_tenancy"><img src="https://secure.travis-ci.org/Applicat/multi_formal_i18n_tenancy.png" alt="multi_formal_i18n_tenancy @ Travis-CI.org"></a> <a href="https://codeclimate.com/github/Applicat/multi_formal_i18n_tenancy"><img src="https://codeclimate.com/badge.png" alt="multi_formal_i18n_tenancy @ CodeClimate.com"></a> <a href="https://gemnasium.com/Applicat/multi_formal_i18n_tenancy"><img src="https://gemnasium.com/Applicat/multi_formal_i18n_tenancy.png?travis" alt="multi_formal_i18n_tenancy @ Gemnasium.com"></a>
+        <h1>
+<a name="multiformali18ntenancy---" class="anchor" href="#multiformali18ntenancy---"><span class="mini-icon mini-icon-link"></span></a>MultiFormalI18nTenancy <a href="http://travis-ci.org/Applicat/multi_formal_i18n_tenancy"><img src="https://secure.travis-ci.org/Applicat/multi_formal_i18n_tenancy.png" style="max-width:100%;"></a> <a href="https://codeclimate.com/github/Applicat/multi_formal_i18n_tenancy"><img src="https://codeclimate.com/badge.png" style="max-width:100%;"></a> <a href="https://gemnasium.com/Applicat/multi_formal_i18n_tenancy"><img src="https://gemnasium.com/Applicat/multi_formal_i18n_tenancy.png?travis" style="max-width:100%;"></a>
 </h1>
 
-<p>This gem extends the standard i18n backend (I18n::Backend::Simple) to introduce <a href="http://en.wikipedia.org/wiki/Convention_over_configuration">Conventions over configuration</a> about 2 new types of locale files.</p>
+<p>This gem extend the standard i18n backend (I18n::Backend::Simple) to
+introduce <a href="http://en.wikipedia.org/wiki/Convention_over_configuration">Conventions
+over configuration</a> about 2 new types of locale files.</p>
 
-<h2>Conventions</h2>
+<h2>
+<a name="conventions" class="anchor" href="#conventions"><span class="mini-icon mini-icon-link"></span></a>Conventions</h2>
 
-<p><span style="font-weight:bold">*_formal.yml</span></p>
+<p><b>1 ) *_formal.yml</b></p>
 
-<p>Given you want to offer your users the option to be addressed formally or informally through a session locale switch: </p>
+<p>Given you want to offer your users the option to be addressed formally or
+informally through a <a href="https://github.com/Applicat/multi_formal_i18n_tenancy#backend-locale-switch">session
+locale switch</a>:</p>
 
-<pre>I18n.locale = :de # or :de_formal</pre>
+<p>Then this is a <a href="http://en.wikipedia.org/wiki/Don%27t_repeat_yourself">DRY</a>
+solution for the workaround about having duplication of de locales in the
+de_formal namespace even though informal &amp; formal translation are the
+same.</p>
 
-<p>So this is a <a href="http://en.wikipedia.org/wiki/Don%27t_repeat_yourself">DRY</a> solution for the workaround about having duplication of de locales in the de_formal namespace even though informal &amp; formal translation are the same.</p>
+<p>This locale file will own all translations from its base *.yml and lets you
+override them through the same translation keys (except of the deviant
+locale namespaces de and de_formal at the beginning).</p>
 
-<p>This locale file owns all translations from its base *.yml and lets you override them through the same translation keys (except of the deviant locale namespaces de and de_formal at the beginning).</p>
+<p><b>2 ) #{locales_path}/tenants/your_tenant_name/**/your_tenant_name.yml</b></p>
 
-<p><span style="font-weight:bold">#{locales_path}/tenants/your_tenant_name/**/your_tenant_name.yml</span></p>
+<p>Given you want to have tenant specific locales through a <a href="https://github.com/Applicat/multi_formal_i18n_tenancy#backend-locale-switch">session
+locale switch</a>:</p>
 
-<p>Given you want to have tenant specific locales through a session locale switch:</p>
+<p><b>Precondition:</b> Assure that you recursively add locale files to
+i18n’s locale path e.g. through your Rails 3 application.rb:</p>
 
-<pre>I18n.locale :your_tenant_name_de # or :your_tenant_name_de_formal</pre>
+<pre>config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}').to_s]</pre>
 
-<pre>('Your Tenant Name'.parameterize.gsub('-', '_') + '_de').to_sym == :your_tenant_name_de</pre>
+<p>You may like to enable multi tenancy for your rails application by
+deploying the repository branch on multiple servers each with a different
+tenant-specific application constants file to load by a config system like
+<a href="https://github.com/railsjedi/rails_config">rails_config</a> at
+initialization.</p>
 
-<p><span style="font-weight:bold">Precondition:</span> Assure that you recursively add locale files to i18n's locale path e.g. through your Rails 3 application.rb:</p>
+<p>This locale file owns all translations from its base *.yml and optional
+*_formal.yml under #{locales_path}/tenants/your-tenant-name/ (recurively)
+and lets you override them through the same translation keys (except of the
+deviant locale namespaces de and de_formal at the beginning).</p>
 
-<pre>config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '*<em>', '</em>.{rb,yml}').to_s]</pre>
+<h2>
+<a name="installation" class="anchor" href="#installation"><span class="mini-icon mini-icon-link"></span></a>Installation</h2>
 
-<p>This locale file owns all translations from its base *.yml and optional *_formal.yml under #{locales_path}/tenants/your-tenant-name/ (recurively) and lets you override them through the same translation keys (except of the deviant locale namespaces de and de_formal at the beginning).</p>
-
-<h2>Installation</h2>
-
-<p>Add this to your Gemfile and run the +bundle+ command.</p>
+<p>Add this to your Gemfile and run the <tt>bundle</tt> command.</p>
 
 <pre>gem "multi_formal_i18n_tenancy"</pre>
 
-<p>The gem (= engine) will automatically set the backend for your Rails application.</p>
+<p>The gem (= engine) will automatically set the backend for your Rails
+application.</p>
 
-<p>OPTIONAL: you have to manually set the i18n backend for your non-rails Ruby application:</p>
+<p>OPTIONAL: you have to manually set the i18n backend for your non-rails Ruby
+application:</p>
 
 <pre>I18n.backend = MultiFormalI18nTenancy::Backend.new</pre>
 
-<h2>Compatibility</h2>
+<h2>
+<a name="backend-locale-switch" class="anchor" href="#backend-locale-switch"><span class="mini-icon mini-icon-link"></span></a>Backend Locale Switch</h2>
 
-<p>Tested on MacOS with: Rails 3.1 &amp; Ruby 1.9.2, Rails 3.2.6 &amp; Ruby 1.9.3.</p>
+<p>Available since version 0.0.3.</p>
 
-<h2>Future</h2>
+<p><b>Initializer</b></p>
 
-<ul>
-<li>Support of more backends than only the standard simple one</li>
-</ul><h2>Contribution</h2>
+<p>To initialize the global default locale based on current configuration.</p>
 
-<p>Just follow the screencast of Ryan Bates on railscasts.com: </p>
+<p>Put this file for instance under config/initializer/multi_tenancy.rb</p>
 
-<p><a href="http://railscasts.com/episodes/300-contributing-to-open-source">http://railscasts.com/episodes/300-contributing-to-open-source</a></p>
+<pre>I18n.locale = I18n.backend.available_locale(
+  formal: Settings.address_formally, tenant: Settings.tenant.name
+)</pre>
 
-<p>Add a description about your changes to CHANGELOG.md under section multi_formal_i18n_tenancy (unreleased).</p>
+<p>Settings is a constant for your settings brought by most popular rack app
+config system: <a href="https://github.com/railsjedi/rails_config">github.com/railsjedi/rails_config</a></p>
 
-<h2>License</h2>
+<pre>I18n.locale = I18n.backend.available_locale(formal: Settings.formal, tenant: Settings.tenant.name)</pre>
+
+<p><b>Controller</b></p>
+
+<p>Dependency: <a href="https://github.com/iain/http_accept_language">github.com/iain/http_accept_language</a></p>
+
+<pre>class ApplicationController
+  AVAILABLE_LOCALES = %w{de en}
+
+  before_filter :set_locale
+
+  private
+
+  def set_locale
+    if user_signed_in? 
+      # use of devise helper methods: user_signed_in?, current_user
+      I18n.locale = current_user.language # you have to add a language string column to your schema
+    else
+      locale = request.preferred_language_from AVAILABLE_LOCALES
+      locale ||= request.compatible_language_from AVAILABLE_LOCALES
+      locale ||= I18n.default_locale
+
+      unless Settings.tenant.name == 'global'
+        locale = ("#{Settings.tenant.name}_#{locale}").to_sym
+      end
+    end
+
+    I18n.locale = I18n.backend.available_locale(
+      base_locale: locale, formal: Settings.formal_address, tenant: Settings.tenant.name
+    )
+  end
+end</pre>
+
+<h2>
+<a name="compatibility" class="anchor" href="#compatibility"><span class="mini-icon mini-icon-link"></span></a>Compatibility</h2>
+
+<p>Tested on MacOS with: Rails 3.1 &amp; Ruby 1.9.2, Rails 3.2.6 &amp; Ruby
+1.9.3.</p>
+
+<h1>
+<a name="future" class="anchor" href="#future"><span class="mini-icon mini-icon-link"></span></a>Future</h1>
+<ul><li>
+<p>Support of more backends than only standard simple one</p>
+</li></ul><h2>
+<a name="contribution" class="anchor" href="#contribution"><span class="mini-icon mini-icon-link"></span></a>Contribution</h2>
+
+<p>Just follow the screencast of Ryan Bates on railscasts.com:</p>
+
+<pre>http://railscasts.com/episodes/300-contributing-to-open-source</pre>
+
+<p>Add a description about your changes to CHANGELOG.md under section
+multi_formal_i18n_tenancy (unreleased).</p>
+
+<h2>
+<a name="license-" class="anchor" href="#license-"><span class="mini-icon mini-icon-link"></span></a>License </h2>
 
 <p>This project uses MIT-LICENSE.</p>
         </section>
