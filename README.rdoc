@@ -91,7 +91,6 @@ Tested on MacOS with: Rails 3.1 & Ruby 1.9.2, Rails 3.2.6 & Ruby 1.9.3.
 
 = Future
 
-* automatically add an before filter to rails controller which includes the tenant scope in the locale
 * Support of more backends than only standard simple one
 
 == Contribution
