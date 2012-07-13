@@ -15,9 +15,10 @@ Gem::Specification.new do |s|
 
   s.files = Dir['{app,config,db,lib}/**/*'] + ['MIT-LICENSE', 'Rakefile', 'README.rdoc']
   s.test_files = Dir['spec/**/*']
+   
+  # only needed for string extension about parameterize method otherwise we would only need i18n
+  s.add_dependency 'activesupport'
 
-  s.add_dependency 'i18n'
-  
   # testing dependencies
   s.add_development_dependency('rspec', "~> #{'2.11.0'.split('.')[0..1].concat(['0']).join('.')}")
 end
