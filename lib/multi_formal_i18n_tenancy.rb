@@ -1,4 +1,4 @@
-require 'i18n'
+require 'active_support/core_ext/string/inflections'
 
 module MultiFormalI18nTenancy
 end
