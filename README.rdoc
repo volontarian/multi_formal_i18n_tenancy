@@ -6,24 +6,21 @@ This gem extend the standard i18n backend (I18n::Backend::Simple) to introduce {
 
 <b>1 ) *_formal.yml</b>
 
-Given you want to offer your users the option to be addressed formally or informally through a session locale switch: 
+Given you want to offer your users the option to be addressed formally or informally through a {session locale switch}[http://https://github.com/Applicat/multi_formal_i18n_tenancy#Backend Locale Switch]: 
 
-  I18n.locale = :de # or :de_formal
+Then this is a {DRY}[http://en.wikipedia.org/wiki/Don%27t_repeat_yourself] solution for the workaround about having duplication of de locales in the de_formal namespace even though informal & formal translation are the same.
 
-So this is a {DRY}[http://en.wikipedia.org/wiki/Don%27t_repeat_yourself] solution for the workaround about having duplication of de locales in the de_formal namespace even though informal & formal translation are the same.
-
-This locale file owns all translations from its base *.yml and lets you override them through the same translation keys (except of the deviant locale namespaces de and de_formal at the beginning).
+This locale file will own all translations from its base *.yml and lets you override them through the same translation keys (except of the deviant locale namespaces de and de_formal at the beginning).
 
 <b>2 ) #{locales_path}/tenants/your_tenant_name/**/your_tenant_name.yml</b>
 
-Given you want to have tenant specific locales through a session locale switch:
-
-  # ('Your Tenant Name'.parameterize.gsub('-', '_') + '_de').to_sym == :your_tenant_name_de
-  I18n.locale :your_tenant_name_de # or :your_tenant_name_de_formal
+Given you want to have tenant specific locales through a {session locale switch}[http://https://github.com/Applicat/multi_formal_i18n_tenancy#Backend Locale Switch]:
 
 <b>Precondition:</b> Assure that you recursively add locale files to i18n's locale path e.g. through your Rails 3 application.rb:
 
   config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}').to_s]
+
+You may like to enable multi tenancy for your rails application by deploying the repository branch on multiple servers each with a different tenant-specific application constants file to load by a config system like {rails_config}[https://github.com/railsjedi/rails_config] at initialization.  
 
 This locale file owns all translations from its base *.yml and optional *_formal.yml under #{locales_path}/tenants/your-tenant-name/ (recurively) and lets you override them through the same translation keys (except of the deviant locale namespaces de and de_formal at the beginning).
 
@@ -38,6 +35,55 @@ The gem (= engine) will automatically set the backend for your Rails application
 OPTIONAL: you have to manually set the i18n backend for your non-rails Ruby application:
 
   I18n.backend = MultiFormalI18nTenancy::Backend.new
+  
+== Backend Locale Switch
+
+Available since version 0.0.3.
+
+<b>Initializer</b>
+
+To initialize the global default locale based on current configuration. 
+
+Put this file for instance under config/initializer/multi_tenancy.rb
+
+  I18n.locale = I18n.backend.available_locale(
+    formal: Settings.address_formally, tenant: Settings.tenant.name
+  )
+  
+Settings is a constant for your settings brought by most popular rack app config system: https://github.com/railsjedi/rails_config  
+
+  I18n.locale = I18n.backend.available_locale(formal: Settings.formal, tenant: Settings.tenant.name)
+  
+<b>Controller</b>  
+
+Dependency: https://github.com/iain/http_accept_language
+
+  class ApplicationController
+    AVAILABLE_LOCALES = %w{de en}
+    
+    before_filter :set_locale
+    
+    private
+    
+    def set_locale
+      if user_signed_in? 
+        # use of devise helper methods: user_signed_in?, current_user
+        I18n.locale = current_user.language # you have to add a language string column to your schema
+      else
+        locale = request.preferred_language_from AVAILABLE_LOCALES
+        locale ||= request.compatible_language_from AVAILABLE_LOCALES
+        locale ||= I18n.default_locale
+        
+        unless Settings.tenant.name == 'global'
+          locale = ("#{Settings.tenant.name}_#{locale}").to_sym
+        end
+      end
+      
+      I18n.locale = I18n.backend.available_locale(
+        base_locale: locale, formal: Settings.formal_address, tenant: Settings.tenant.name
+      )
+    end
+  end
   
 == Compatibility
 
