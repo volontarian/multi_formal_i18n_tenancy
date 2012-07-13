@@ -2,7 +2,7 @@ PATH
   remote: .
   specs:
     multi_formal_i18n_tenancy (0.0.3)
-      i18n
+      activesupport
 
 GEM
   remote: http://rubygems.org/
