@@ -193,25 +193,4 @@ describe MultiFormalI18nTenancy::Backend do
       end
     end
   end
-=begin  
-  describe '#delete_right_key_if_left_key' do
-    include_context :all_locale_file_constellations
-    
-    it 'principally works' do
-      I18n.backend = MultiFormalI18nTenancy::Backend.new
-      
-      left_hash = { key_1: 'value 1', key_2: { key_2_1: 'value 2.1' }}
-      right_hash = { key_1: 'value 2', key_2: { key_2_1: 'value 2.1 a', key_2_2: 'value 2.2' } }
-      
-      #I18n.backend.delete_right_key_if_left_key(left_hash, right_hash)
-      
-      #left_hash.deep_merge!(right_hash)
-      left_hash = right_hash.deep_merge(left_hash)
-      
-      left_hash[:key_1].should == 'value 1'
-      left_hash[:key_2][:key_2_1].should == 'value 2.1'
-      left_hash[:key_2][:key_2_2].should == 'value 2.2'
-    end
-  end
-=end
 end
