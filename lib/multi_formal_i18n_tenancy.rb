@@ -1,4 +1,5 @@
 require 'active_support/core_ext/string/inflections'
+require 'active_support/core_ext/hash/deep_merge'
 
 module MultiFormalI18nTenancy
 end

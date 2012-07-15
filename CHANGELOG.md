@@ -1,5 +1,29 @@
 ## multi_formal_i18n_tenancy (unreleased) ##
 
+## multi_formal_i18n_tenancy 0.0.4 (July 16, 2012) ##
+
+*   Fixes a bug at formal address feature for the following missing constellation / test example
+
+      de:
+        key: 'Du'
+      
+      de_formal:
+        key: 'Sie'
+     
+      I18n.locale = :de
+      I18n.t('de_formal').should == 'Du' # success
+      I18n.locale = :de_formal
+      I18n.t('de_formal').should == 'Sie' # success
+     
+      I18n.locale = :tenant_name_de_formal
+      
+      # failure:
+      # expected: "Sie"
+      # got: "Du"
+      I18n.t('de_formal').should == 'Sie'
+
+    *Mathias Gawlista*
+
 ## multi_formal_i18n_tenancy 0.0.3 (July 13, 2012) ##
 
 *   Adds new instance method available_locale to return the most compatible locale for formal address and / or multi tenancy inheritance setting to be used at locale switch through controller's before filter and / or optional config initializer.

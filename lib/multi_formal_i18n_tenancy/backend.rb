@@ -56,8 +56,9 @@ class MultiFormalI18nTenancy::Backend < I18n::Backend::Simple
         
         # de_formal > your_enterprise_name_de
         base_locale = locale.to_s.gsub(FORMAL_LOCALE_PATTERN, '') 
-        base_translations = (translations[base_locale.to_sym] || {}).clone.deep_symbolize_keys # deep_symbolize_keys?
-        translations[locale].deep_merge!(base_translations)
+        base_translations = (translations[base_locale.to_sym] || {}).clone.deep_symbolize_keys
+        
+        translations[locale] = base_translations.deep_merge(translations[locale])
       elsif tenant
         base_locale.gsub!(/^#{tenant}_/, '')
       else
@@ -116,7 +117,7 @@ class MultiFormalI18nTenancy::Backend < I18n::Backend::Simple
     deepest_available_locale || I18n.default_locale
   end
   
-  private
+  #private
   
   def tenant_from_locale?(locale)
     tenant = locale.to_s.gsub(FORMAL_LOCALE_PATTERN, '').split('_')
@@ -129,5 +130,17 @@ class MultiFormalI18nTenancy::Backend < I18n::Backend::Simple
     end
     
     tenant && @filenames.select{|f| f.match("/tenants/#{tenant}/")}.any? ? tenant : nil
+  end
+  
+  def delete_right_key_if_left_has_key(left_hash, right_hash)
+    right_hash.each do |key,value|
+      next unless left_hash.has_key?(key)
+
+      if value.is_a?(Hash)
+        delete_right_key_if_left_has_key(left_hash[key], value)
+      else
+        right_hash.delete(key) if left_hash.has_key?(key)
+      end
+    end
   end
 end

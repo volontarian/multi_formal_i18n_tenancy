@@ -23,8 +23,10 @@ describe MultiFormalI18nTenancy::Backend do
         it 'returns the formal translation' do
           I18n.locale = :de
           I18n.t('formal_available').should == 'Du'
+          I18n.t('de_formal_formal_available').should == 'Du'
           I18n.locale = :de_formal
           I18n.t('formal_available').should == 'Sie'
+          I18n.t('de_formal_formal_available').should == 'Sie'
         end
       end
       
@@ -41,8 +43,10 @@ describe MultiFormalI18nTenancy::Backend do
         it 'returns the formal translation' do
           I18n.locale = :your_tenant_name_de
           I18n.t('formal_available').should == 'Du auch'
+          I18n.t('de_formal_formal_available').should == 'Du'
           I18n.locale = :your_tenant_name_de_formal
           I18n.t('formal_available').should == 'Sie auch'
+          I18n.t('de_formal_formal_available').should == 'Sie'
         end
       end
       
@@ -189,4 +193,25 @@ describe MultiFormalI18nTenancy::Backend do
       end
     end
   end
+=begin  
+  describe '#delete_right_key_if_left_key' do
+    include_context :all_locale_file_constellations
+    
+    it 'principally works' do
+      I18n.backend = MultiFormalI18nTenancy::Backend.new
+      
+      left_hash = { key_1: 'value 1', key_2: { key_2_1: 'value 2.1' }}
+      right_hash = { key_1: 'value 2', key_2: { key_2_1: 'value 2.1 a', key_2_2: 'value 2.2' } }
+      
+      #I18n.backend.delete_right_key_if_left_key(left_hash, right_hash)
+      
+      #left_hash.deep_merge!(right_hash)
+      left_hash = right_hash.deep_merge(left_hash)
+      
+      left_hash[:key_1].should == 'value 1'
+      left_hash[:key_2][:key_2_1].should == 'value 2.1'
+      left_hash[:key_2][:key_2_2].should == 'value 2.2'
+    end
+  end
+=end
 end
