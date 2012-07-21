@@ -9,9 +9,9 @@ Gem::Specification.new do |s|
   s.version     = MultiFormalI18nTenancy::VERSION
   s.authors     = ['Mathias Gawlista']
   s.email       = ['gawlista@googlemail.com']
-  s.homepage    = 'http://applicat.github.com/multi_formal_i18n_tenancy'
-  s.summary     = 'Your formal locales will inherit translations from their base locale and locales stored in an enterprise folder can override base + formal translations'
-  s.description = 'Your formal locales will inherit translations from their base locale and locales stored in an enterprise folder can override base + formal translations'
+  s.homepage    = 'http://github.com/Applicat/multi_formal_i18n_tenancy'
+  s.summary     = 'Your locales about polite form of address will inherit translations from their base locale and locales stored in a tenant directory can override base + formal translations'
+  s.description = 'Your locales about polite form of address will inherit translations from their base locale and locales stored in a tenant directory can override base + formal translations '
 
   s.files = Dir['{app,config,db,lib}/**/*'] + ['MIT-LICENSE', 'Rakefile', 'README.rdoc']
   s.test_files = Dir['spec/**/*']
