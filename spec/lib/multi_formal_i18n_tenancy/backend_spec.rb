@@ -11,7 +11,7 @@ describe MultiFormalI18nTenancy::Backend do
     I18n.locale = I18n.default_locale
   end
   
-  describe '#load_translations' do
+  describe '#lookup' do
     include_context :all_locale_file_constellations
     
     before :all do

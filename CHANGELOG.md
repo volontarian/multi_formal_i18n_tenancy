@@ -1,5 +1,11 @@
 ## multi_formal_i18n_tenancy (unreleased) ##
 
+## multi_formal_i18n_tenancy 0.0.5 (July 21, 2012) ##
+
+*   avoid redundant storage of translations and inherit translations through overriding lookup instead of store_translations method
+
+    *Mathias Gawlista*
+
 ## multi_formal_i18n_tenancy 0.0.4 (July 16, 2012) ##
 
 *   Fixes a bug at formal address feature for the following missing constellation / test example
