@@ -4,6 +4,17 @@ This gem extend the standard i18n backend (I18n::Backend::Simple) to introduce {
 
 WARNING: Have to rethink parts of the implementation which seem to reimplement I18n::Backend::Fallbacks without this nice to have convention over configuration "algorithm".
 
+So you can also write this with a little help of i18n's basic fallback module (at bootstrap process):
+
+  I18n::Backend::Simple.send(:include, I18n::Backend::Fallbacks)
+
+  I18n.fallbacks[:de] = [:de]
+  I18n.fallbacks[:de_formal] = [:de_formal, :de]
+  I18n.fallbacks[:your_tenant_name_de] = [:your_tenant_name_de, :de]
+  I18n.fallbacks[:your_tenant_name_de_formal] = [:your_tenant_name_de_formal, :your_tenant_name_de, :de_formal, :de]
+
+This gem will just save you these lines through a convenient convention over configuration "algorithm".
+
 == Conventions
 
 <b>1 ) *_formal.yml</b>
